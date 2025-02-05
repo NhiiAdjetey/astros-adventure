@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Astro's Suburban Adventure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #e0f7fa;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #story {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+    }
+    button {
+      background-color: #ffcc80;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1em;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    button:hover {
+      background-color: #ffa726;
+    }
+    img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Astro's Suburban Adventure</h1>
+  <div id="image-container">
+    <img id="scene-image" src="https://i.imgur.com/dYdJhcw.png" alt="Suburban Street">
+  </div>
+  <div id="story"></div>
+  <div id="choices"></div>
+
+  <script>
+    const scenes = {
+      start: {
+        text: `In a quiet suburb, meet young Astro so bright,<br>
+               Dreaming of stars, he gazes each night.<br>
+               Today is special, adventures unfold,<br>
+               Which path will he take? Be brave and be bold!`,
+        img: "https://i.imgur.com/dYdJhcw.png",
+        choices: [
+          { text: "Explore the park", nextScene: "park" },
+          { text: "Visit the library", nextScene: "library" },
+          { text: "Build a rocket in the yard", nextScene: "rocket" }
+        ]
+      },
+      park: {
+        text: `At the park, the birds sing a song,<br>
+               Astro listens and hums along.<br>
+               He spots a glimmer near a tree,<br>
+               What could this mysterious sparkle be?`,
+        img: "https://i.imgur.com/9Y5VQcz.png",
+        choices: [
+          { text: "Pick up the sparkle", nextScene: "sparkle" },
+          { text: "Climb the tree", nextScene: "tree" },
+          { text: "Chase the squirrels", nextScene: "squirrels" }
+        ]
+      },
+      library: {
+        text: `Rows of books from ceiling to floor,<br>
+               Stories and tales galore to explore.<br>
+               A book on rockets catches his eye,<br>
+               Should Astro read it or pass it by?`,
+        img: "https://i.imgur.com/KYAm9uy.png",
+        choices: [
+          { text: "Read about rockets", nextScene: "readRockets" },
+          { text: "Join story time", nextScene: "storyTime" },
+          { text: "Draw a picture", nextScene: "drawing" }
+        ]
+      },
+      rocket: {
+        text: `With boxes and glue, tape and more,<br>
+               Astro builds on the grassy floor.<br>
+               A rocket ship to touch the sky,<br>
+               What's next for our little guy?`,
+        img: "https://i.imgur.com/I0HJ4Ad.png",
+        choices: [
+          { text: "Launch the rocket", nextScene: "launch" },
+          { text: "Paint it colorful", nextScene: "paint" },
+          { text: "Invite friends to play", nextScene: "friends" }
+        ]
+      },
+      sparkle: {
+        text: `The sparkle was a magic stone,<br>
+               It whispers softly with a gentle tone.<br>
+               "Hold me tight and close your eyes,<br>
+                Together we'll soar through starry skies!"`,
+        img: "https://i.imgur.com/7XqVJ3i.png",
+        choices: [
+          { text: "Fly to the stars", nextScene: "starsEnding" },
+          { text: "Make a wish", nextScene: "wishEnding" },
+          { text: "Save for later", nextScene: "saveStone" }
+        ]
+      },
+      starsEnding: {
+        text: `Up they went, past clouds so high,<br>
+               Reaching twinkles in the sky.<br>
+               Astro smiled, his dream came true,<br>
+               Thanks to magic and friends like you!`,
+        img: "https://i.imgur.com/fUHfrUP.png",
+        choices: []
+      },
+      wishEnding: {
+        text: `Eyes shut tight, a wish he made,<br>
+               Hopes and dreams begin to fade.<br>
+               But when he opened his eyes to see,<br>
+               His wish came true, how could it be!`,
+        img: "https://i.imgur.com/fUHfrUP.png",
+        choices: []
+      },
+      saveStone: {
+        text: `He saved the stone within his pack,<br>
+               For another day when he comes back.<br>
+               Adventures wait around the bend,<br>
+               For Astro and his newfound friend!`,
+        img: "https://i.imgur.com/dYdJhcw.png",
+        choices: []
+      },
+      // Additional scenes (tree, squirrels, readRockets, storyTime, drawing, launch, paint, friends) can be added here following the same structure
+    };
+
+    let currentScene = 'start';
+
+    function updateScene() {
+      const scene = scenes[currentScene];
+      document.getElementById('story').innerHTML = scene.text;
+      document.getElementById('scene-image').src = scene.img;
+      const choicesDiv = document.getElementById('choices');
+      choicesDiv.innerHTML = '';
+
+      if (scene.choices.length === 0) {
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Play Again';
+        restartButton.onclick = () => {
+          currentScene = 'start';
+          updateScene();
+        };
+        choicesDiv.appendChild(restartButton);
+      } else {
+        scene.choices.forEach(choice => {
+          const button = document.createElement('button');
+          button.textContent = choice.text;
+          button.onclick = () => {
+            currentScene = choice.nextScene;
+            updateScene();
+          };
+          choicesDiv.appendChild(button);
+        });
+      }
+    }
+
+    updateScene();
+  </script>
+
+</body>
+</html>
